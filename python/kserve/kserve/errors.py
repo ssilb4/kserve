@@ -88,6 +88,24 @@ class ModelNotReady(RuntimeError):
         return self.error_msg
 
 
+class CustomError(Exception):
+    def __init__(self, reason: str)
+        self.reason = reason
+        
+    def __init__(self, reason: str, status_code: int)
+        self.reason = reason
+        self.status_code = status_code
+
+    def __str__(self):
+        return self.error_msg
+
+    def status_code(self):
+        for status in HTTPStatus:
+            if status.code.value == slef.status_code:
+                return status
+        return HTTPStatus.INTERNAL_SERVER_ERROR
+
+
 async def exception_handler(_, exc):
     logger.error("Exception:", exc_info=exc)
     return JSONResponse(status_code=HTTPStatus.INTERNAL_SERVER_ERROR, content={"error": str(exc)})
@@ -122,3 +140,13 @@ async def model_not_ready_handler(_, exc):
 async def not_implemented_error_handler(_, exc):
     logger.error("Exception:", exc_info=exc)
     return JSONResponse(status_code=HTTPStatus.NOT_IMPLEMENTED, content={"error": str(exc)})
+
+
+async def custom_error_handler(_, exc):
+    logger.error("Exception:", exc_info=exc)
+    return JSONResponse(status_code=HTTPStatus.NOT_IMPLEMENTED, content={"error": str(exc)})
+
+
+async def custom_exception_handler(_, exc):
+    logger.error("Exception:", exc_info=exc)
+    return JSONResponse(status_code=exc.status_code, content={"error": str(exc)})
