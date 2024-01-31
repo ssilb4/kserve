@@ -144,9 +144,4 @@ async def not_implemented_error_handler(_, exc):
 
 async def custom_error_handler(_, exc):
     logger.error("Exception:", exc_info=exc)
-    return JSONResponse(status_code=HTTPStatus.NOT_IMPLEMENTED, content={"error": str(exc)})
-
-
-async def custom_exception_handler(_, exc):
-    logger.error("Exception:", exc_info=exc)
     return JSONResponse(status_code=exc.status_code, content={"error": str(exc)})
