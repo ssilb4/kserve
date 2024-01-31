@@ -101,7 +101,7 @@ class CustomError(Exception):
 
     def status_code(self):
         for status in HTTPStatus:
-            if status.code.value == slef.status_code:
+            if status.code.value == self.status_code:
                 return status
         return HTTPStatus.INTERNAL_SERVER_ERROR
 
