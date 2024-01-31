@@ -27,10 +27,10 @@ from timing_asgi import TimingClient, TimingMiddleware
 from timing_asgi.integrations import StarletteScopeToName
 
 from kserve.errors import (InferenceError, InvalidInput, ModelNotFound,
-                           ModelNotReady, generic_exception_handler,
+                           ModelNotReady, CustomError, generic_exception_handler,
                            inference_error_handler, invalid_input_handler,
                            model_not_found_handler, model_not_ready_handler,
-                           not_implemented_error_handler)
+                           not_implemented_error_handler, custom_error_handler)
 from kserve.logging import trace_logger
 from kserve.protocol.dataplane import DataPlane
 
@@ -129,6 +129,7 @@ class RESTServer:
                 ModelNotFound: model_not_found_handler,
                 ModelNotReady: model_not_ready_handler,
                 NotImplementedError: not_implemented_error_handler,
+                CustomError: custom_error_handler,
                 Exception: generic_exception_handler
             }
         )
